@@ -1,0 +1,50 @@
+.586
+.MODEL FLAT
+INCLUDE io.h
+.STACK 4096
+.DATA
+
+maxnbr EQU 100
+array DWORD maxnbr DUP (?) 
+res BYTE 40 DUP(?)
+inp BYTE 40 DUP(?)
+
+result BYTE "my arr :",0
+nbrelts DWORD ?
+
+
+.CODE
+MainProc PROC
+lea ebx,array
+myinp:
+input result,inp,40
+atod inp
+mov esi,0
+mov ecx,0
+cmp eax,0
+jng stop
+mov [ebx],eax
+add esi,4
+inc nbrelts
+add ebx,4
+jmp myinp
+
+stop:
+
+mov ecx,nbrelts
+;mov esi,0
+mov eax,0
+sum:
+
+add eax ,[ebx]
+add esi,4
+;dec ecx
+;cmp ecx,0
+add ebx,4
+loop sum
+
+dtoa res,eax
+output result,res
+ret
+MainProc ENDP
+END

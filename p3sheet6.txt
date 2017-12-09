@@ -1,0 +1,36 @@
+.586
+.MODEL FLAT
+INCLUDE io.h
+.STACK 4096
+.DATA
+
+arrayA DWORD 1,2,3,4,5,6
+arrayB DWORD 5 DUP (?) 
+res BYTE 40 DUP(?)
+inp BYTE 40 DUP(?)
+result BYTE "my arr :",0
+
+.CODE
+MainProc PROC
+lea ebx,arrayA
+lea ebp,arrayB
+mov ecx,5
+mov esi,0
+myloop:
+mov edx,[ebx+esi]
+mov edi,[ebx+esi+4]
+add edx,edi
+mov [ebp+esi],edx
+add esi,4
+
+loop myloop
+mov ecx,5
+printarrB:
+mov eax ,[ ebp+esi]
+add esi,4
+dtoa res,eax
+output result,res
+loop printarrB
+ret
+MainProc ENDP
+END
