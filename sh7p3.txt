@@ -1,0 +1,55 @@
+.586
+.MODEL FLAT
+INCLUDE io.h
+.STACK 4096
+.DATA
+
+res BYTE 20 DUP(?)
+result BYTE "Max:",0
+strinp BYTE "Entr Number:",0
+arrayA dd 40 DUP(?)
+inp BYTE 20 DUP(?)
+positon BYTE " index :",0
+n1 dd ?
+mypos dd ?
+.CODE
+MainProc PROC
+input strinp,n1,40
+atod n1
+mov ecx , eax ;counter1
+mov esi,eax  ;counter 2
+mov eax,0
+lea ebx ,arrayA
+myinput :
+input strinp,inp,40
+atod inp
+mov [ebx],eax
+add ebx,4
+loop myinput
+;clear registers
+mov ebx ,offset arrayA
+mov eax,0
+mov edx,0
+;ecx
+mov edx,[ebx]
+mov ecx,esi
+mov edi ,0
+fori:
+inc edi
+cmp edx,[ebx]
+jg stillmax
+mov edx,[ebx]
+mov mypos,edi
+stillmax:
+add ebx,4
+loop fori
+;print max
+dtoa res,edx
+output result,res
+;print pos
+mov eax,edi
+dtoa res,eax
+output positon,res
+ret
+MainProc ENDP
+END
